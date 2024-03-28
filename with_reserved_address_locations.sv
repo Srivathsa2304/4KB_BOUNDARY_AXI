@@ -8,6 +8,7 @@ class boundary_4KB;
   
     constraint reserved_location{reserved inside {[12288:14335]};}
     constraint address_range{awaddr inside {[0:30719]};}
+   constraint avoid_address{!(awaddr inside {[12288:14335]});}
   // The awaddr should not be equal to the reserved address
     constraint avoid_reserved_address{awaddr!=reserved;}
     constraint address_alignment{awaddr%(2^awsize)==0;}
@@ -22,7 +23,7 @@ module top;
   boundary_4KB boundary;
   initial begin
     boundary=new();
-    repeat(10)begin
+    repeat(100)begin
     void'(boundary.randomize());
       $display("----------------------------");
       $display("awaddr:%0d",boundary.awaddr);
